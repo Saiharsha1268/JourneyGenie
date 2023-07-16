@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const Tagline = () => {
   return (
     <div
@@ -25,12 +25,22 @@ const Tagline = () => {
             <div className="container row row-cols-2">
               <div className="col" style={{ paddingLeft: "175px" }}>
                 <button type="button" className="btn btn-primary">
-                  <strong>Sign up</strong>
+                  <Link
+                    to="/signup"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <strong>Sign up</strong>
+                  </Link>
                 </button>
               </div>
               <div className="col" style={{ paddingRight: "175px" }}>
                 <button type="button" className="btn btn-dark">
-                  <strong>Sign in</strong>
+                  <Link
+                    to="/login"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <strong>Sign in</strong>
+                  </Link>
                 </button>
               </div>
             </div>

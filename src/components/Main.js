@@ -5,6 +5,8 @@ import MapMarker from "./MapMarker";
 import TagLine from "./TagLine";
 import ShortestRoute from "./ShortestRoute";
 import RouteMap from "./RouteMap";
+import SignUp from "./SignUp";
+import Login from "./Login";
 import Spinner from "./Spinner";
 function Main() {
   return (
@@ -23,6 +25,38 @@ function Main() {
               }}
             >
               <TagLine />
+            </div>
+          }
+        />
+        <Route
+          exact
+          path="/login"
+          element={
+            <div
+              className="container-fluid d-flex"
+              style={{
+                height: "100vh",
+                width: "100%",
+                paddingTop: "63px",
+              }}
+            >
+              <Login />
+            </div>
+          }
+        />
+        <Route
+          exact
+          path="/signup"
+          element={
+            <div
+              className="container-fluid d-flex"
+              style={{
+                height: "100vh",
+                width: "100%",
+                paddingTop: "63px",
+              }}
+            >
+              <SignUp />
             </div>
           }
         />
