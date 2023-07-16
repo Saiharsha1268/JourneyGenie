@@ -1,12 +1,18 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+import "leaflet-routing-machine";
+import "leaflet/dist/leaflet.css";
+import "leaflet-defaulticon-compatibility";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import wayPointsContext from "../context/wayPointsContext";
-
-const MapComponent = () => {
+import shortestPathContext from "../context/shortestPathContext";
+const RouteMap = () => {
   const mapContainerRef = useRef(null);
   const [map, setMap] = useState(null);
   const { waypoints } = useContext(wayPointsContext);
+  const { shortestPath, setShortestPath } = useContext(shortestPathContext);
   const defaultIcon = new L.icon({
     iconUrl: require("../../node_modules/leaflet/dist/images/marker-icon.png"),
     iconSize: [25, 41],
@@ -38,19 +44,45 @@ const MapComponent = () => {
       leafletMap.remove();
     };
   }, []);
+  // useEffect(() => {
+  //   const temp = map;
+  //   if (temp)
+  //     temp.eachLayer(function (layer) {
+  //       if (layer instanceof L.Marker) {
+  //         temp.removeLayer(layer);
+  //       }
+  //     });
+  //   if (map && waypoints.length > 0) {
+  //     waypoints.forEach((ele) => {
+  //       L.marker([ele[1], ele[2]], { icon: defaultIcon }).addTo(temp);
+  //     });
+  //     setMap(temp);
+  //   }
+  // }, [waypoints]);
   useEffect(() => {
-    if (map && waypoints.length > 0) {
+    if (shortestPath.length != 0) {
+      let ways = [];
+      for (let i = 0; i < shortestPath.length; i++) {
+        ways.push(
+          L.latLng(
+            waypoints[shortestPath[i] - 1][1],
+            waypoints[shortestPath[i] - 1][2]
+          )
+        );
+      }
       const temp = map;
-      waypoints.forEach((ele) => {
-        L.marker([ele[1], ele[2]], { icon: defaultIcon }).addTo(temp);
-      });
+      L.Routing.control({
+        waypoints: ways,
+        router: L.Routing.osrmv1({
+          serviceUrl: "http://router.project-osrm.org/route/v1",
+        }),
+      }).addTo(temp);
       setMap(temp);
     }
-  }, [waypoints]);
-
+  }, [shortestPath]);
   return (
     <div
-      className="container-fluid d-flex "
+      className="container-fluid d-flex"
       ref={mapContainerRef}
       style={{
         width: "100%",
@@ -62,4 +94,4 @@ const MapComponent = () => {
   );
 };
 
-export default MapComponent;
+export default RouteMap;

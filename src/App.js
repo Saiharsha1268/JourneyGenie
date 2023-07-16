@@ -1,10 +1,9 @@
 import "./App.css";
 import NavBar from "./components/NavBar";
-import LocationSearch from "./components/LocationSearch";
-import Map from "./components/Map";
-import TagLine from "./components/TagLine";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import WayPointsState from "./context/WayPointsState";
+import ShortestPathState from "./context/ShortestPathState";
+import Main from "./components/Main.js";
 function App() {
   return (
     <div
@@ -20,45 +19,12 @@ function App() {
       }}
     >
       <WayPointsState>
-        <Router>
-          <NavBar />
-          <Routes>
-            <Route
-              exact
-              path="/"
-              element={
-                <div
-                  className="container-fluid d-flex"
-                  style={{
-                    height: "100vh",
-                    width: "100%",
-                    paddingTop: "100px",
-                  }}
-                >
-                  <TagLine />
-                  <LocationSearch />
-                </div>
-              }
-            />
-            <Route
-              exact
-              path="/waypoints"
-              element={
-                <div
-                  className="container-fluid d-flex"
-                  style={{
-                    height: "100vh",
-                    width: "100%",
-                    paddingTop: "63px",
-                  }}
-                >
-                  <LocationSearch />
-                  <Map />
-                </div>
-              }
-            />
-          </Routes>
-        </Router>
+        <ShortestPathState>
+          <Router>
+            <NavBar />
+            <Main />
+          </Router>
+        </ShortestPathState>
       </WayPointsState>
     </div>
   );
